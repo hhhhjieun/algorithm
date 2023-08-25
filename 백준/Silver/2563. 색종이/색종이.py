@@ -1,23 +1,19 @@
-# 색종이 수
-T = int(input())
-canvas = [[0] * 100 for _ in range(100)]
+import sys
 
-for num in range(T):
-    R = 10  # 변의 길이
-    width_start, height_start = map(int, input().split())
+N = int(sys.stdin.readline())
 
-    width_end = width_start + R
-    height_end = height_start + R
+canvas = [[0] * 101 for _ in range(101)]
 
-    for i in range(height_start, height_end):
-        for j in range(width_start, width_end):
+# 색종이 배치
+for _ in range(N):
+    left, under = map(int, sys.stdin.readline().split())
+    for i in range(under, under + 10):
+        for j in range(left, left + 10):
             canvas[i][j] += 1
 
-# 넓이 계산하기
-# 값이 1 이상인 경우 계산
 area = 0
-for i in range(100):
-    for j in range(100):
+for i in range(101):
+    for j in range(101):
         if canvas[i][j] >= 1:
             area += 1
 
