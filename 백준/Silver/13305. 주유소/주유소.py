@@ -14,14 +14,11 @@ i = 0
 j = 1
 cost = 0
 
-while i < N:
+while i+j < N:
     # i 위치의 가격이 i+j의 위치보다 작으면 계속 이동
     if price[i] <= price[i+j]:
         j += 1
-        # 마지막 지점까지 도달하면,
-        if i + j == N:
-            cost += price[i] * sum(km[i:i+j])
-            break
+
     # 더 저렴한 가격이 나오면 i+j 위치까지 가격 계산
     else:
         cost += (price[i] * sum(km[i:i+j]))
@@ -29,5 +26,9 @@ while i < N:
         i += j
         # j는 다시 1부터
         j = 1
+
+# 끝까지 해당가격이 저렴한 경우
+if cost == 0:
+    cost += (price[i] * sum(km))
 
 print(cost)
