@@ -1,28 +1,34 @@
-import heapq
 import sys
-input = sys.stdin.readline
+import heapq
 
-country = int(input())
-graph = [[] for _ in range(country + 1)]
+N = int(sys.stdin.readline())
+M = int(sys.stdin.readline())
+graph = [[] for _ in range(N+1)]
 
-for _ in range(int(input())):
-    start, end, cost = map(int, input().split())
-    graph[start].append([end, cost])
+for _ in range(M):
+    f, t, w = map(int, input().split())
+    graph[f].append([t, w])
+
 
 def dijkstra(start, end):
-    costs = [float('inf') for _ in range(country + 1)]
-    costs[start] = 0
-    queue = []
-    heapq.heappush(queue, [start, 0])
-    while queue:
-        cur_destination, cur_cost = heapq.heappop(queue)
-        if costs[cur_destination] < cur_cost :
-            continue
-        for new_destination, new_cost in graph[cur_destination]:
-            sum_cost = new_cost + cur_cost
-            if costs[new_destination] > sum_cost:
-                costs[new_destination] = sum_cost
-                heapq.heappush(queue, [new_destination, sum_cost])
-    return costs[end]
+    distance = [float('inf')] * (N + 1)
 
-print(dijkstra(*map(int,input().split())))
+    pq = []
+    heapq.heappush(pq, [0,start])
+    distance[start] = 0
+
+    while pq:
+        dist, now = heapq.heappop(pq)
+
+        if distance[now] < dist:
+            continue
+
+        for next_node, cost in graph[now]:
+            new_cost = dist + cost
+            if distance[next_node] > new_cost:
+                distance[next_node] = new_cost
+                heapq.heappush(pq,[new_cost, next_node])
+    return distance[end]
+
+
+print(dijkstra(*map(int, sys.stdin.readline().split())))
